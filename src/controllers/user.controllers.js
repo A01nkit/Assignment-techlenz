@@ -53,3 +53,19 @@ export const fileUpload = asyncHandler(async (req, res) => {
 
 
 })
+
+export const fileDownload = asyncHandler(async (req, res) => {
+    const filename = req.params['name']
+    const existedfile = await Book.findOne({fileName: filename})
+
+    //If file do not exist
+    if(!existedfile) {
+        throw new ApiError(409, "file do not exist. hence, no operation can be done")
+    }
+
+    //extract from cloudinary.
+
+    return res.status(201).json(
+        new ApiResponse(200, existedfile, "file delivered successfully")
+    ) 
+})
