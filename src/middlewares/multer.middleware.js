@@ -1,4 +1,5 @@
 import multer from "multer"
+import { ApiError } from "../utils/ApiError.js";
 
 const storage = multer.diskStorage({
     //I intentially store files in diskStorge as if store in memoryStorage result in server down or freeze
@@ -10,4 +11,19 @@ const storage = multer.diskStorage({
     }
 })
   
-export const upload = multer({ storage: storage })//for es6 {storage}
+export const upload = multer({ 
+  storage: storage,
+  limits: { fileSize: 5000000 } // Limit file size to 5MB
+  /*fileFilter: (req, file, cb) => {
+    if(
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/pdf"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      throw new ApiError(400, "invalid file type")
+    }
+  }*/
+})//for es6 {storage}

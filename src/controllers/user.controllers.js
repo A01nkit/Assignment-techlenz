@@ -28,9 +28,10 @@ export const fileUpload = asyncHandler(async (req, res) => {
     }
 
     //upload them to cloudnary, check @cloudinary
-    const file = await uplodOnCloudinary(avatarLocalPath)
+    const file = await uplodOnCloudinary(fileLocalPath)
+    //console.log(file);
     if (!file) {
-        throw new ApiError(400, "file is required")
+        throw new ApiError(500, "unable to process the file")
     }
 
     //create user object - create entry call in db
